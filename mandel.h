@@ -1,15 +1,15 @@
 #include <SFML/Graphics.hpp>
 
-const int WINDOW_LENGTH = 800;
-const int WINDOW_HEIGHT = 800;
+const int WINDOW_LENGTH = 1920;
+const int WINDOW_HEIGHT = 1080;
 
 const int MAX_REPEAT    = 256;
 const int MAX_RADIUS2   = 100;
 
-const float factStartX  = -1.5f;
-const float factStartY  = -1.5f;
-const float factEndX    = 1.5f;
-const float factEndY    = 1.5f;
+const float factStartX  = -20/9;
+const float factStartY  = -0.95f;
+const float factEndX    = 12/9;
+const float factEndY    = 1.05f;
 
 const float deltaX      = (factEndX - factStartX) / WINDOW_LENGTH;
 const float deltaY      = (factEndY - factStartY) / WINDOW_HEIGHT;
