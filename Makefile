@@ -12,7 +12,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -w -Wall -Wextra -Weffc++ -Waggressive
 -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
 
-SOURCES=optim2.cpp
+SOURCES=optim4.cpp
 
 EXECUTABLE=mandelbrot
 
@@ -24,7 +24,7 @@ erase:
 	clear
 
 compile:
-	@${CC} ${CFLAGS} -o3 -msse4.2 $(SOURCES) -o $(EXECUTABLE) $(SFML_EXEC)
+	@${CC} ${CFLAGS} -msse4.2 $(SOURCES) -o $(EXECUTABLE) $(SFML_EXEC)
 
 run:
 	@./${EXECUTABLE}
