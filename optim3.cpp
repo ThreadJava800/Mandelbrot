@@ -12,6 +12,19 @@ inline void mm_sub_ps (float* dest, float* arr1, float* arr2) { for (int i = 0; 
 // mul one arr of 4 to another
 inline void mm_mul_ps (float* dest, float* arr1, float* arr2) { for (int i = 0; i < 4; i++) dest[i] = arr1[i] * arr2[i]; }
 
+inline void mm_cmple_ps(int* mask, float* radiuses, float cmpRad) { for (int j = 0; j < 4; j++) mask[j] = (cmpRad >= radiuses[j]) ? 0xFFFFFFFF : 0; }
+
+inline int mm_movemask_ps(int* mask) {
+    int checkMask = 0;
+    for (int j = 0; j < 4; j++) checkMask |= (mask[j] == 0xFFFFFFFF ? 1 : 0) << j;
+    return checkMask;
+}
+
+inline void mm_sub_epi32(int* dest, int* arr1, int* arr2) { for (int i = 0; i < 4; i++) dest[i] = arr1[i] - arr2[i]; }
+
+inline void mm_setzero_si128(int* arr) { for (int i = 0; i < 4; i++) arr[i] = 0; }
+
+
 // arr for inline func
 float _0123[4] = {0, deltaX, 2 * deltaX, 3 * deltaX};
 float _2222[4] = {2, 2, 2, 2};
@@ -33,9 +46,7 @@ void getMandelbrot(sf::Image* pixelsImage) {
             float xs[4]  = {}; mm_set_ps (xs, x0s); 
             float ys[4]  = {}; mm_set_ps1(ys, y0);
             
-
-            short cmpMask = 0;                                                                                                                                                                                                  
-            int cmp[4] = {0, 0, 0, 0};
+            int cmp[4] = {}; mm_setzero_si128(cmp);
 
             for (int i = 0; i < MAX_REPEAT; i++) {
                 float xs2 [4] = {}; mm_mul_ps(xs2, xs, xs);
@@ -44,12 +55,10 @@ void getMandelbrot(sf::Image* pixelsImage) {
 
                 float radiuses[4] = {}; mm_add_ps(radiuses, xs2, ys2);
 
-                for (int m = 0; m < 4; m++) {
-                    if ((MAX_RADIUS2 < radiuses[m]) && !(cmpMask & (1 << m))) {
-                        cmp[m] = i;
-                        cmpMask |= (1 << m);
-                    }
-                }
+                int mask[4] = {}; mm_cmple_ps(mask, radiuses, MAX_RADIUS2);
+                if (!mm_movemask_ps(mask)) break;
+
+                mm_sub_epi32(cmp, cmp, mask);
 
                 mm_sub_ps(xs, xs2, ys2);
                 mm_add_ps(xs, xs, x0s);     // xs[j] = xs2[j] - ys2[j] + x0s[j];
@@ -58,12 +67,8 @@ void getMandelbrot(sf::Image* pixelsImage) {
                 mm_add_ps(ys, ys, y0s);
             }
 
-            if (cmpMask) {
-                for (int i = 0; i < 4; i++) {
-                    if (cmpMask & (1 << i)) {
-                        (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
-                    }
-                }
+            for (int i = 0; i < 4; i++) {
+                    (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
             }
         }
     }
