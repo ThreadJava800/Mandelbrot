@@ -26,24 +26,21 @@ void getMandelbrot(sf::Image* pixelsImage) {
 
                 float radiuses[4] = {}; for (int j = 0; j < 4; j++) radiuses[j] = xs2[j] + ys2[j]; 
 
-                for (int m = 0; m < 4; m++) {
-                    if ((MAX_RADIUS2 < radiuses[m]) && !(cmpMask & (1 << m))) {
-                        cmp[m] = i;
-                        cmpMask |= (1 << m);
-                    }
-                }
+                int checkMask = 0;
+                int mask[4] = {};   for (int j = 0; j < 4; j++) mask[j] = (MAX_RADIUS2 >= radiuses[j]) ? 0xFFFFFFFF : 0;
+                for (int j = 0; j < 4; j++) checkMask |= (mask[j] == 0xFFFFFFFF ? 1 : 0) << j;
+
+                if (!checkMask) break;
+
+                for (int j = 0; j < 4; j++) cmp[j] = cmp[j] - mask[j];
 
                 for (int j = 0; j < 4; j++) xs[j] = xs2[j] - ys2[j] + x0s[j];
                 for (int j = 0; j < 4; j++) ys[j] = 2 * xsys[j] + y0s[j];
             }
 
-            if (cmpMask) {
                 for (int i = 0; i < 4; i++) {
-                    if (cmpMask & (1 << i)) {
-                        (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
-                    }
+                    (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
                 }
-            }
         }
     }
 }

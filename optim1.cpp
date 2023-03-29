@@ -34,10 +34,10 @@ void getMandelbrot(sf::Image* pixelsImage) {
                 mask[2] = MAX_RADIUS2 >= radiuses[2] ? 0xFFFFFFFF : 0;
                 mask[3] = MAX_RADIUS2 >= radiuses[3] ? 0xFFFFFFFF : 0;
 
-                checkMask = mask[0] == 0xFFFFFFFF ? 1 : 0;
-                checkMask = (mask[1] == 0xFFFFFFFF ? 1 : 0) << 1;
-                checkMask = (mask[2] == 0xFFFFFFFF ? 1 : 0) << 2;
-                checkMask = (mask[3] == 0xFFFFFFFF ? 1 : 0) << 3;
+                checkMask |= mask[0] == 0xFFFFFFFF ? 1 : 0;
+                checkMask |= (mask[1] == 0xFFFFFFFF ? 1 : 0) << 1;
+                checkMask |= (mask[2] == 0xFFFFFFFF ? 1 : 0) << 2;
+                checkMask |= (mask[3] == 0xFFFFFFFF ? 1 : 0) << 3;
 
                 if (!checkMask) break;
 
