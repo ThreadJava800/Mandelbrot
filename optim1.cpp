@@ -15,8 +15,6 @@ void getMandelbrot(sf::Image* pixelsImage) {
             float xs[4]  = {x0s[0], x0s[1], x0s[2], x0s[3]};
             float ys[4]  = {y0s[0], y0s[1], y0s[2], y0s[3]};
             
-
-            short cmpMask = 0;
             int cmp[4] = {0, 0, 0, 0};
 
             for (int i = 0; i < MAX_REPEAT; i++) {
@@ -27,12 +25,26 @@ void getMandelbrot(sf::Image* pixelsImage) {
                 float radiuses[4] = 
                     {xs2[0] + ys2[0], xs2[1] + ys2[1], xs2[2] + ys2[2], xs2[3] + ys2[3]};
 
-                for (int m = 0; m < 4; m++) {
-                    if ((MAX_RADIUS2 < radiuses[m]) && !(cmpMask & (1 << m))) {
-                        cmp[m] = i;
-                        cmpMask |= (1 << m);
-                    }
-                }
+
+                int mask[4] = {0, 0, 0, 0};
+                int checkMask[4] = {0, 0, 0, 0};
+
+                mask[0] = MAX_RADIUS2 >= radiuses[0] ? 0xFFFFFFFF : 0;
+                mask[1] = MAX_RADIUS2 >= radiuses[1] ? 0xFFFFFFFF : 0;
+                mask[2] = MAX_RADIUS2 >= radiuses[2] ? 0xFFFFFFFF : 0;
+                mask[3] = MAX_RADIUS2 >= radiuses[3] ? 0xFFFFFFFF : 0;
+
+                checkMask[0] = mask[0] == 0xFFFFFFFF ? 1 : 0;
+                checkMask[1] = mask[1] == 0xFFFFFFFF ? 1 : 0;
+                checkMask[2] = mask[2] == 0xFFFFFFFF ? 1 : 0;
+                checkMask[3] = mask[3] == 0xFFFFFFFF ? 1 : 0;
+
+                if (!checkMask) break;
+
+                cmp[0] = cmp[0] - mask[0];
+                cmp[1] = cmp[1] - mask[1];
+                cmp[2] = cmp[2] - mask[2];
+                cmp[3] = cmp[3] - mask[3];
 
                 xs[0] = xs2[0] - ys2[0] + x0s[0];
                 xs[1] = xs2[1] - ys2[1] + x0s[1];
@@ -45,12 +57,8 @@ void getMandelbrot(sf::Image* pixelsImage) {
                 ys[3] = 2 * xsys[3] + y0s[3];
             }
 
-            if (cmpMask) {
-                for (int i = 0; i < 4; i++) {
-                    if (cmpMask & (1 << i)) {
-                        (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
-                    }
-                }
+            for (int i = 0; i < 4; i++) {
+                (*pixelsImage).setPixel(pixelX + i, pixelY, sf::Color(cmp[i], cmp[i], cmp[i]));
             }
         }
     }
