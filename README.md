@@ -3,9 +3,11 @@
 
 > -Yep, but try to optimise it using instruction-level parallelism.
 
+![Mandelbrot visualisation](https://github.com/ThreadJava800/Mandelbrot/blob/master/pic.png)
+
 |  |  |
 | --- | --- |
-| `Compiler` | g++ (GCC) 12.2.1 20230201 files |
+| `Compiler` | g++ (GCC) 12.2.1 |
 | `Optimisation flags` | -msse4.2
 | `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
 | `CPU` | AMD Ryzen 5 5500U
