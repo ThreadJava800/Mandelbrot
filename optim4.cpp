@@ -16,7 +16,7 @@ void getMandelbrot(sf::Image* pixelsImage) {
 
         for (int pixelX = 0; pixelX < WINDOW_LENGTH; pixelX += 4, x0 += 4 * deltaX) {
             __m128 x0s   = _mm_set_ps1(x0);
-            __m128 _0123 = _mm_set_ps (0, deltaX, 2 * deltaX, 3 * deltaX);
+            __m128 _0123 = _mm_set_ps (3 * deltaX, 2 * deltaX, deltaX, 0);
             x0s          = _mm_add_ps (x0s, _0123);
 
             __m128 y0s   = _mm_set_ps1(y0);
@@ -81,6 +81,9 @@ void runMainCycle() {
     sf::Text    text;
     text.setFont(font);
     text.setFillColor(sf::Color::White);
+
+    int frames = 0;
+    clock_t startTime = clock();
 
     while (window.isOpen())
     {
