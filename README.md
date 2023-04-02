@@ -8,7 +8,7 @@
 |  |  |
 | --- | --- |
 | `Compiler` | g++ (GCC) 12.2.1 |
-| `Optimisation flags` | -msse4.2
+| `Optimisation flags` | -mavx512f
 | `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
 | `CPU` | AMD Ryzen 5 5500U
 
@@ -32,4 +32,12 @@ Than I found out that [inline functions](https://github.com/ThreadJava800/Mandel
 
 ### Step 5
 After it, I found out about intrinsigs! And it [works just fine](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim4.cpp)\
-(words ~ 0.600 ms)
+(works ~ 0.600 ms)
+
+### Step 6
+Then I switched to __m256 with 8 floats in it.\
+[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim5.cpp) started to work twice as fast (~ 0.390 ms)
+
+### Step 7
+Then I switched to __m512 with 16 floats in it.\
+[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp) worked the same time (because my processor do not support avx512 optimisation).
