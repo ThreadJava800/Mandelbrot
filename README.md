@@ -40,4 +40,14 @@ Then I switched to __m256 with 8 floats in it.\
 
 ### Step 7
 Then I switched to __m512 with 16 floats in it.\
-[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp) worked the same time (because my processor do not support avx512 optimisation).
+[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp)... didn't work (because my processor does not support avx512 optimisation).
+
+### Comparison table
+I ran every calculation 100 times and took median time.
+
+| Optimisation | Theoretical acceleration | Actual acceleration
+| --- | --- | --- |
+| `Naive` | 1x (1100ms) | 1x (1100ms) |
+| `SSE4.2` | 4x (275ms)  | 1.6x (690ms)
+| `AVX256` | 8x (137.5ms) | 2.81x (391ms) |
+| `AVX512` | 16x (68.75ms) | - |
