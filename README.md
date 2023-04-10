@@ -8,7 +8,7 @@
 |  |  |
 | --- | --- |
 | `Compiler` | g++ (GCC) 12.2.1 |
-| `Optimisation flags` | -mavx512f
+| `Optimisation flags` | -msse4.2 (-mavx2)
 | `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
 | `CPU` | AMD Ryzen 5 5500U
 
@@ -46,42 +46,26 @@ Then I switched to __m512 with 16 floats in it.\
 It's important to mention, that I tested everything on my laptop connected to electricity.
 
 I ran every calculation 100 times and took median time.\
-First of all, I compiled everything with -O0 flag:
+First of all, I compiled everything with -O2 flag:
 
-| Optimisation | Theoretical acceleration | Actual acceleration
-| --- | --- | --- |
-| `Naive` | 1x (1094.3ms) | 1x (1094.3ms) |
-| `SSE4.2` | 4x (273.58ms)  | 1.62x (675.63ms)
-| `AVX256` | 8x (136.8ms) | 2.9x (380.32ms) |
-
-Then, with -O1:
-
-| Optimisation | Theoretical acceleration | Actual acceleration
-| --- | --- | --- |
-| `Naive` | 1x (772.4ms) | 1x (772.4ms) |
-| `SSE4.2` | 4x (193.1ms)  | 3.6x (213.93ms)
-| `AVX256` | 8x (96.55ms) | 6.4x (121.15ms) |
-
--O2:
-
-| Optimisation | Theoretical acceleration | Actual acceleration
-| --- | --- | --- |
-| `Naive` | 1x (437.5ms) | 1x (437.5ms) |
-| `SSE4.2` | 4x (109.38ms)  | 3.78x (115.7ms)
-| `AVX256` | 8x (54.69ms) | 6.9x (63.16ms) |
+| Optimisation | Theoretical acceleration | Actual acceleration | STD Deviation
+| --- | --- | --- | --- |
+| `Naive` | 1x (437.5ms) | 1x (437.5ms) | 0.65 |
+| `SSE4.2` | 4x (109.38ms)  | 3.78x (115.7ms) | 0.66 |
+| `AVX256` | 8x (54.69ms) | 6.9x (63.16ms) | 0.60 |
 
 -O3:
 
-| Optimisation | Theoretical acceleration | Actual acceleration
-| --- | --- | --- |
-| `Naive` | 1x (437.5ms) | 1x (437.5ms) |
-| `SSE4.2` | 4x (109.38ms)  | 3.79x (115.5ms)
-| `AVX256` | 8x (54.69ms) | 7.3x (60ms) |
+| Optimisation | Theoretical acceleration | Actual acceleration | STD Deviation |
+| --- | --- | --- | --- |
+| `Naive` | 1x (437.5ms) | 1x (437.5ms) | 0.64 |
+| `SSE4.2` | 4x (109.38ms)  | 3.79x (115.5ms) | 0.38 |
+| `AVX256` | 8x (54.69ms) | 7.3x (60ms) | 0.38 | 
 
 -Ofast:
 
-| Optimisation | Theoretical acceleration | Actual acceleration
-| --- | --- | --- |
-| `Naive` | 1x (406.17ms) | 1x (406.17ms) |
-| `SSE4.2` | 4x (101.54ms)  | 3.9x (104.24ms)
-| `AVX256` | 8x (50.77ms) | 7.2x (56.4ms) |
+| Optimisation | Theoretical acceleration | Actual acceleration | STD Deviation
+| --- | --- | --- | --- |
+| `Naive` | 1x (406.17ms) | 1x (406.17ms) | 0.51 |
+| `SSE4.2` | 4x (101.54ms)  | 3.9x (104.24ms) | 0.41 |
+| `AVX256` | 8x (50.77ms) | 7.2x (56.4ms) | 0.39 |
