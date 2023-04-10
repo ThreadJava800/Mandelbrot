@@ -6,10 +6,17 @@ const int WINDOW_HEIGHT = 1080;
 const int MAX_REPEAT    = 256;
 const int MAX_RADIUS2   = 100;
 
+// DEFAULT:
 const float factStartX  =  -5.5/3;
 const float factStartY  =  -0.95;
 const float factEndX    =   2.5/3;
 const float factEndY    =   1.05;
+
+// const float factStartX  =  -5.5/3 * 100000;
+// const float factStartY  =  -0.95  * 100000;
+// const float factEndX    =   2.5/3 * 100000;
+// const float factEndY    =   1.05  * 100000;
+
 
 const float deltaX      = (factEndX - factStartX) / WINDOW_LENGTH;
 const float deltaY      = (factEndY - factStartY) / WINDOW_HEIGHT;

@@ -43,11 +43,45 @@ Then I switched to __m512 with 16 floats in it.\
 [Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp)... didn't work (because my processor does not support avx512 optimisation).
 
 ### Comparison table
-I ran every calculation 100 times and took median time.
+It's important to mention, that I tested everything on my laptop connected to electricity.
+
+I ran every calculation 100 times and took median time.\
+First of all, I compiled everything with -O0 flag:
 
 | Optimisation | Theoretical acceleration | Actual acceleration
 | --- | --- | --- |
-| `Naive` | 1x (1100ms) | 1x (1100ms) |
-| `SSE4.2` | 4x (275ms)  | 1.6x (690ms)
-| `AVX256` | 8x (137.5ms) | 2.81x (391ms) |
-| `AVX512` | 16x (68.75ms) | - |
+| `Naive` | 1x (1094.3ms) | 1x (1094.3ms) |
+| `SSE4.2` | 4x (273.58ms)  | 1.62x (675.63ms)
+| `AVX256` | 8x (136.8ms) | 2.9x (380.32ms) |
+
+Then, with -O1:
+
+| Optimisation | Theoretical acceleration | Actual acceleration
+| --- | --- | --- |
+| `Naive` | 1x (772.4ms) | 1x (772.4ms) |
+| `SSE4.2` | 4x (193.1ms)  | 3.6x (213.93ms)
+| `AVX256` | 8x (96.55ms) | 6.4x (121.15ms) |
+
+-O2:
+
+| Optimisation | Theoretical acceleration | Actual acceleration
+| --- | --- | --- |
+| `Naive` | 1x (437.5ms) | 1x (437.5ms) |
+| `SSE4.2` | 4x (109.38ms)  | 3.78x (115.7ms)
+| `AVX256` | 8x (54.69ms) | 6.9x (63.16ms) |
+
+-O3:
+
+| Optimisation | Theoretical acceleration | Actual acceleration
+| --- | --- | --- |
+| `Naive` | 1x (437.5ms) | 1x (437.5ms) |
+| `SSE4.2` | 4x (109.38ms)  | 3.79x (115.5ms)
+| `AVX256` | 8x (54.69ms) | 7.3x (60ms) |
+
+-Ofast:
+
+| Optimisation | Theoretical acceleration | Actual acceleration
+| --- | --- | --- |
+| `Naive` | 1x (406.17ms) | 1x (406.17ms) |
+| `SSE4.2` | 4x (101.54ms)  | 3.9x (104.24ms)
+| `AVX256` | 8x (50.77ms) | 7.2x (56.4ms) |
