@@ -3,6 +3,14 @@
 
 > -Yep, but try to optimise it using instruction-level parallelism.
 
+## Table of Contents
+1. [Example](#general)
+2. [Example2](#example2)
+3. [Third Example](#third-example)
+4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+
+## General information <a name="general"></a>
+
 ![Mandelbrot visualisation](https://github.com/ThreadJava800/Mandelbrot/blob/master/pic.png)
 
 |  |  |
@@ -12,14 +20,14 @@
 | `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
 | `CPU` | AMD Ryzen 5 5500U
 
-It's a simple task, where I learned what is instruction-level parallelism and SIMD intrinsics. Mostly I used cycle unrolling.\
+It's a simple task, where I learned what is `instruction-level parallelism`. Mostly I used cycle unrolling.\
 So.
+
 ### Step 1
-Just [simple (naive) realization](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp) (Operating time ~ 1.300 ms)
+Just [simple (naive) realization](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
 
 ### Step 2
-Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it looks cringe, annoying copy-paste and etc. \
-(Operating time ~ 0.600 ms)
+Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it looks cringe, annoying copy-paste and etc. On the other hand, works faster \
 
 ### Step 3
 Tried to [use cycles](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp) and make g++ to unroll it. But... it doesn't work. \
