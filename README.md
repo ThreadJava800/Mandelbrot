@@ -4,10 +4,10 @@
 > -Yep, but try to optimise it using instruction-level parallelism.
 
 ## Table of Contents
-1. [Example](#general)
-2. [Example2](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+1. [General information](#general)
+2. [Progress](#progress)
+3. [Comparison table](#compare)
+4. [Dive into assembly](#assemble)
 
 ## General information <a name="general"></a>
 
@@ -22,6 +22,8 @@
 
 It's a simple task, where I learned what is `instruction-level parallelism`. Mostly I used cycle unrolling.\
 So.
+
+## Progress <a name="progress"></a>
 
 ### Step 1
 Just [simple (naive) realization](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
@@ -50,7 +52,7 @@ Then I switched to `__m256` with 8 floats in it.\
 Then I switched to `__m512` with 16 floats in it.\
 [Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp)... didn't work (because my processor does not support avx512 optimisation).
 
-### Comparison table
+## Comparison table <a name="compare"></a>
 It's important to mention, that I tested everything on my laptop (plugged in).
 
 I ran every calculation 100 times and took median time.\
@@ -80,3 +82,5 @@ First of all, I compiled everything with -O2 flag:
 | `Naive` | 1x (406.17ms) | 1x (406.17 ± 0.51 ms) |
 | `SSE4.2` | 4x (101.54ms)  | 3.9x (104.24 ± 0.41 ms) |
 | `AVX256` | 8x (50.77ms) | 7.2x (56.4 ± 0.39 ms) |
+
+## Dive into assembly <a name="assemble"></a>
