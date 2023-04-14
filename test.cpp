@@ -176,7 +176,7 @@ int main() {
 
     sum /= 100;
 
-    printf("%lf", sqrt(sum));
+    printf("%lf %lf\n", sqrt(sum), median);
 
     free(times);
 
