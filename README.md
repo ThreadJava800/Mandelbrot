@@ -87,6 +87,9 @@ I decided to explore how different g++ optimisers work.
 -O1 works with local variables mostly via registers (while -O0 uses stack).\
 It works faster as there no need in moving value from xmm register back to stack.
 
-![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png)
-![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png)
+C code:\
+![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png)\
+Assembly code:\
+![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png)\
+Assenbly code with -O1 optimisation:\
 ![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o1.png)
