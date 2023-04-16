@@ -6,6 +6,7 @@
 2. [Progress](#progress)
 3. [Comparison table](#compare)
 4. [Dive into assembly](#assemble)
+5. [Conclusion](#conclusion)
 
 ## General information <a name="general"></a>
 
@@ -93,3 +94,17 @@ Assembly code:\
 ![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png#center)\
 Assembly code with -O1 optimisation:\
 ![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o1.png)
+
+-O2 shuffles calculations, so they can be counted faster (thanks to instruction pipelining).
+
+C code:\
+![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code2.png#center)\
+Assembly code with -O1 optimisation:\
+![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o12.png#center)\
+Assembly code with -O2 optimisation:\
+![O2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/ofast2.png)
+
+Other optimisation flags seem to show no effect.
+
+## Conclusion <a name="conclusion"></a>
+Using SIMD instructions is a great way to speed up the program. Considering, it is not very time-consuming, I'm looking forward to use intrinsics in my future projects, where the speed of algorithm is significant.
