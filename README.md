@@ -86,7 +86,7 @@ First of all, I compiled everything with -O2 flag:
 I decided to explore how different g++ optimisers work.
 
 -O1 works with local variables mostly via registers (while -O0 uses stack).\
-It works faster as there no need in moving value from xmm register back to stack.
+It works faster as there is no need in moving value from xmm register back to stack.
 
 C code:\
 ![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png#center)\
