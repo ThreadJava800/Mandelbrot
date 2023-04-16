@@ -88,8 +88,8 @@ I decided to explore how different g++ optimisers work.
 It works faster as there no need in moving value from xmm register back to stack.
 
 C code:\
-![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png#center)\
+![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png#center){style="display: block; margin: 0 auto"}\
 Assembly code:\
-![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png#center)\
+![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png#center){style="display: block; margin: 0 auto"}\
 Assembly code with -O1 optimisation:\
-![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o1.png)
+![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o1.png){style="display: block; margin: 0 auto"}
