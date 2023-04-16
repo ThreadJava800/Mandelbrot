@@ -29,7 +29,7 @@ It's a simple task, where I learned what is `instruction-level parallelism`. Mos
 Just [simple (naive) implementation](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
 
 ### Step 2
-Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it looks cringe, annoying copy-paste and etc. On the other hand, works faster.
+Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it contains annoying copy-paste and etc. On the other hand, works faster.
 
 ### Step 3
 Tried to [use cycles](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp) and make g++ to unroll it. But... it doesn't work. \
