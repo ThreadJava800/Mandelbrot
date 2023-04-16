@@ -21,7 +21,7 @@
 
 It's a simple task, where I learned what `instruction-level parallelism` is. Mostly I used cycle unrolling.
 
-*All time measurements were done only for calculation part (graphics not measured).*
+*All time measurements have been done only for calculation part (graphics not measured).*
 
 ## Progress <a name="progress"></a>
 
@@ -29,7 +29,7 @@ It's a simple task, where I learned what `instruction-level parallelism` is. Mos
 Just [simple (naive) implementation](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
 
 ### Step 2
-Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it contains annoying copy-paste and etc. On the other hand, works faster.
+Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it contains annoying copy-paste and etc. On the other hand, it works faster.
 
 ### Step 3
 Tried to [use cycles](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp) and make g++ to unroll it. But... it doesn't work. \
