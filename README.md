@@ -19,7 +19,7 @@
 | `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
 | `CPU` | AMD Ryzen 5 5500U
 
-It's a simple task, where I learned what is `instruction-level parallelism`. Mostly I used cycle unrolling.
+It's a simple task, where I learned what `instruction-level parallelism` is. Mostly I used cycle unrolling.
 
 *All time measurements were done only for calculation part (graphics not measured).*
 
