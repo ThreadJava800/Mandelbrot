@@ -107,4 +107,4 @@ Assembly code with -O2 optimisation:\
 Other optimisation flags seem to show no effect.
 
 ## Conclusion <a name="conclusion"></a>
-Using SIMD instructions is a great way to speed up the program. Considering, it is not very time-consuming, I'm looking forward to using intrinsics in my future projects, where the speed of algorithm is significant.
+Using SIMD instructions is a great way to speed up the program. Considering it is not very time-consuming, I'm looking forward to using intrinsics in my future projects, where the speed of algorithm is significant.
