@@ -1,110 +1,114 @@
-# Mandelbrot visualisation
->Mandelbrot set visualization with SIMD optimizations.
+# Визуализация множества мандельброта
+> Визуализация множества мандельброта с SIMD оптимизациями.
 
-## Table of Contents
-1. [General information](#general)
-2. [Progress](#progress)
-3. [Comparison table](#compare)
-4. [Dive into assembly](#assemble)
-5. [Conclusion](#conclusion)
+## Содержание
+1. [Общая информация](#general)
+2. [Ход работы](#progress)
+3. [Сравнение реализаций](#compare)
+4. [Углубимся в ассемблер](#assemble)
+5. [Заключение](#conclusion)
 
-## General information <a name="general"></a>
+## Общая информация <a name="general"></a>
 
 ![Mandelbrot visualisation](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/pic.png)
 
 |  |  |
 | --- | --- |
-| `Compiler` | g++ (GCC) 12.2.1 |
-| `Optimisation flags` | -msse4.2 (-mavx2)
-| `OS` | Arch Linux x86_64 (6.2.7-arch1-1)|
-| `CPU` | AMD Ryzen 5 5500U
+| `Компилятор` | g++ (GCC) 12.2.1 |
+| `Флаги оптимазации` | -msse4.2 (-mavx2)
+| `ОС` | Arch Linux x86_64 (6.2.7-arch1-1)|
+| `Процессор` | AMD Ryzen 5 5500U
 
-It's a simple task, where I learned what `instruction-level parallelism` is. Mostly I used cycle unrolling.
+Я исследовал влияние интринсиков на быстродействие этого несложного алгоритма.\
+Также, моей целью было ближе познакомиться с понятием `параллелизма уровня инструкций`.
 
-*All time measurements have been done only for calculation part (graphics not measured).*
+## Ход работы <a name="progress"></a>
 
-## Progress <a name="progress"></a>
+### Шаг 1
+[Простая (наивная) реализация](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
 
-### Step 1
-Just [simple (naive) implementation](https://github.com/ThreadJava800/Mandelbrot/blob/master/naive.cpp)
+### Шаг 2
+В ручную добавил [развёртку циклов](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp).\
+Работает гораздо быстрее, но код стал не читаемым.
 
-### Step 2
-Added [cycle unrolling](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim1.cpp). But it contains annoying copy-paste and etc. On the other hand, it works faster.
+### Шаг 3
+Решил сократить количество кода с помощью [циклов](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp) в надежде, что `g++` сумеет развернуть их. Но, он не смог :)\
+`g++` без флагов оптимизации не рискует разворачивать циклы\
+В результате, программа стала работать даже дольше, чем наивная реализация.
 
-### Step 3
-Tried to [use cycles](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp) and make g++ to unroll it. But... it doesn't work. \
-g++ is afraid to do cycle unrolling inside functions\
-Works 20 times longer than before.
+### Шаг 4
+Затем я решил заменить циклы на [`inline` функции](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim3.cpp), ведь их компилятор с большей вероятностью свернёт.\
+Однако, на скорость работы программы это не повлияло.
 
-### Step 4
-Than I found out that [inline functions](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim3.cpp) are better adapted for `SSE` optimisation. But... program is still running for too long
+### Шаг 5
+Затем, я решил использовать [интринсики](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim4.cpp), в частности, `SSE` оптимизации.\
+По сравнению с прошлым шагом, эта оптимизация ускорила алгоритм в 20 раз.
 
-### Step 5
-After it, I found out about intrinsics! And it [works just fine](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim4.cpp)\
-(~ 20 times acceleration in comparison with previous step)
+### Шаг 6
+Далее, для ускорения программы было принято решение переключиться на [`AVX` инструкции](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim5.cpp), которые работают с 8 float числами за раз.\
+Алгоритм стал работать ~ 2 раза быстрее.
 
-### Step 6
-Then I switched to `__m256` with 8 floats in it.\
-[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim5.cpp) started to work twice as fast.
+### Шаг 7
+Затем, была написана реализация алгоритма для [AVX512 оптимизаций](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp)
+Then I switched to __m512` with 16 floats in it.\
+Но оказалось, что мой процессора не поддерживает данные инструкции.
 
-### Step 7
-Then I switched to `__m512` with 16 floats in it.\
-[Program](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim6.cpp)... doesn't work (because my processor does not support avx512 optimisation).
+## Сравнение реализаций <a name="compare"></a>
+Важно отметить, что во время тестирования компьютер был подключён к сети и никаких других приложений не было запущено.
 
-## Comparison table <a name="compare"></a>
-It's important to mention, that I tested everything on my laptop (plugged in) with no other applications running.
+Все расчёты были запущены 100 раз. По итогу было взято среднее время.
 
-I ran every calculation 100 times and took median time.
-
-
-First of all, I compiled everything with -O2 flag:
+*Время работы измерялось лишь для расчётов (графика и считывание картинок из памяти не считались)*
 
 
-| Optimisation | Theoretical acceleration | Actual acceleration |
+Для начала, все программы были собраны с флагом `-O2`:
+
+
+| Реализация | Теоретическое ускорение | Фактическое ускорение |
 | --- | --- | --- |
-| `Naive` | 1x (437.5ms) | 1x (437.5 ± 0.65 ms) |
+| `Наивная` | 1x (437.5ms) | 1x (437.5 ± 0.65 ms) |
 | `SSE4.2` | 4x (109.38ms)  | 3.78x (115.7 ± 0.66 ms) |
 | `AVX256` | 8x (54.69ms) | 6.9x (63.16 ± 0.6ms) |
 
 -O3:
 
-| Optimisation | Theoretical acceleration | Actual acceleration |
+| Реализация | Теоретическое ускорение | Фактическое ускорение |
 | --- | --- | --- |
-| `Naive` | 1x (437.5ms) | 1x (437.5 ± 0.64 ms) |
+| `Наивная` | 1x (437.5ms) | 1x (437.5 ± 0.64 ms) |
 | `SSE4.2` | 4x (109.38ms)  | 3.79x (115.5 ± 0.38 ms) |
 | `AVX256` | 8x (54.69ms) | 7.3x (60 ± 0.38 ms) | 
 
--Ofast:
+`-Ofast`:
 
-| Optimisation | Theoretical acceleration | Actual acceleration |
+| Реализация | Теоретическое ускорение | Фактическое ускорение |
 | --- | --- | --- |
-| `Naive` | 1x (406.17ms) | 1x (406.17 ± 0.51 ms) |
+| `Наивная` | 1x (406.17ms) | 1x (406.17 ± 0.51 ms) |
 | `SSE4.2` | 4x (101.54ms)  | 3.9x (104.24 ± 0.41 ms) |
 | `AVX256` | 8x (50.77ms) | 7.2x (56.4 ± 0.39 ms) |
 
-## Dive into assembly <a name="assemble"></a>
-I decided to explore how different g++ optimisers work.
+## Углубимся в ассемблер <a name="assemble"></a>
+Я решил исследовать, как работают различные оптимизации `g++`.
 
--O1 works with local variables mostly via registers (while -O0 uses stack).\
-It works faster as there is no need in moving value from xmm register back to stack.
+`-O1` работает с локальными переменными через регистры, в отличии от `-O0`, который использует стек.\
+Это рабоает быстрее, т.к. нет надобности в пересылке данных из регистра в стек и наоборот.
 
-C code:\
+Код на си:\
 ![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png#center)\
-Assembly code:\
+Ассемблерный код (`-O0`):\
 ![O0](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o0.png#center)\
-Assembly code with -O1 optimisation:\
+Ассемблерный код (`-O1`):\
 ![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o1.png)
 
--O2 shuffles calculations, so they can be counted faster (thanks to instruction pipelining).
+`-O2` переставляет команды таким образом, что вычисления происходят быстрее (благодаря вычислительному конвееру).
 
-C code:\
+Код на си:\
 ![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code2.png#center)\
-Assembly code with -O1 optimisation:\
+Ассемблерный код (`-O1`):\
 ![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o12.png#center)\
-Assembly code with -O2 optimisation:\
+Ассемблерный код (`-O2`):\
 ![O2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/ofast2.png)
 
-Other optimisation flags seem to show no effect.
+Другие флаги оптимизации (`-O3` и `-Ofast`) не повлияли на ассемблерный код.
 
-## Conclusion <a name="conclusion"></a>
-Using SIMD instructions is a great way to speed up the program. Considering it is not very time-consuming, I'm looking forward to using intrinsics in my future projects, where the speed of algorithm is significant.
+## Заключение <a name="conclusion"></a>
+Использование `SIMD инструкций` способно в разы ускорить время работы алгоритма. Учитывая, что написания алгоритма с использованием интринсиков не трудозатратно, в будущем я буду использовать эти оптимизации, если необходимо.
