@@ -92,6 +92,8 @@ Then I switched to __m512` with 16 floats in it.\
 `-O1` работает с локальными переменными через регистры, в отличии от `-O0`, который использует стек.\
 Это рабоает быстрее, т.к. нет надобности в пересылке данных из регистра в стек и наоборот.
 
+Ссылка на [godbolt.org](https://godbolt.org/z/db9YT7hKj)
+
 Код на си:\
 ![C code](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/c_code.png#center)\
 Ассемблерный код (`-O0`):\
@@ -107,6 +109,8 @@ Then I switched to __m512` with 16 floats in it.\
 ![O1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/o12.png#center)\
 Ассемблерный код (`-O2`):\
 ![O2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/ofast2.png)
+
+В регистре `eax` хранится переменная цикла, которая увеличивается на единицу каждую итерацию.\
 
 Другие флаги оптимизации (`-O3` и `-Ofast`) не повлияли на ассемблерный код.
 
