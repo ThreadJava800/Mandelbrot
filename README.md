@@ -46,8 +46,10 @@ $y_{i+1} = 2 * x_i * y_i + y_0$\
 
 
 ### Шаг 3
-Решил сократить количество кода с помощью [циклов](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp), в надежде, что `g++` сумеет развернуть их. Но, он не смог :)\
-![optim2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim2.png)
+Решил сократить количество кода с помощью [циклов](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim2.cpp), в надежде, что `g++` сумеет развернуть их. Но, он не смог :). Например,\
+![optim2_1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim2_1.png)\
+было заменено на\
+![optim2_2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim2_2.png)\
 `g++` без флагов оптимизации не рискует разворачивать циклы\
 В результате, программа стала работать даже дольше, чем наивная реализация (примерно в 20 раз).
 
