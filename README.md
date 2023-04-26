@@ -72,8 +72,8 @@ $y_{i+1} = 2 * x_i * y_i + y_0$\
 ![optim3_1](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim3_1.png)\
 заменились на\
 ![optim4](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim4.png).\
-По сравнению с прошлым шагом, эта оптимизация ускорила алгоритм в 20 раз быстрее, чем на 4 шаге (то есть, время стало тем же, что и на [2 шаге](#step2)).\
-Здесь [`_mm_mul_ps`](https://www.laruence.com/sse/#text=_mm_mul_ps&expand=3928) и [`_mm_add_ps`](https://www.laruence.com/sse/#text=_mm_add_ps&expand=3928,133) - <em>intrinsic функции</em>.
+Здесь [`_mm_mul_ps`](https://www.laruence.com/sse/#text=_mm_mul_ps&expand=3928) и [`_mm_add_ps`](https://www.laruence.com/sse/#text=_mm_add_ps&expand=3928,133) - <em>intrinsic функции</em>.\
+По сравнению с прошлым шагом, эта оптимизация ускорила алгоритм в 20 раз быстрее, чем на 4 шаге (то есть, время стало тем же, что и на [2 шаге](#step2)).
 
 ### Шаг 6
 Далее, для ускорения программы было принято решение переключиться на [AVX инструкции](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim5.cpp), которые работают с 8 float числами за раз.\
