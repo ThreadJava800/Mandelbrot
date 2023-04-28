@@ -54,7 +54,7 @@ $y_{i+1} = 2 * x_i * y_i + y_0$\
 В результате, программа стала работать даже дольше, чем наивная реализация (примерно в 20 раз).
 
 ### Шаг 4
-Затем я решил заменить циклы на [inline функции](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim3.cpp), ведь их компилятор с большей вероятностью свернёт.\
+Затем я решил заменить циклы на [inline функции](https://github.com/ThreadJava800/Mandelbrot/blob/master/optim3.cpp), ведь их компилятор с большей вероятностью развернёт.\
 Таким образом,\
 ![optim2_2](https://github.com/ThreadJava800/Mandelbrot/blob/master/testpics/optim2_2.png)\
 был заменён на\
